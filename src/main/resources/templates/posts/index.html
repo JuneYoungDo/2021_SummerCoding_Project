@@ -8,6 +8,7 @@
     <title>Title</title>
 </head>
 <body>
+<h2> post 목록 </h2>
 <table class="table">
     <thead>
     <tr>
@@ -18,13 +19,13 @@
     </thead>
     <tbody>
     <tr th:each="post : ${posts}">
-        <td><!--<a th:href = "@{/posts/{id}(id = ${post.id})}">--><span th:text="${post.id}"></span><!--</a>--></td>
+        <td><a th:href = "@{/posts/{id}(id = ${post.id})}"><span th:text="${post.id}"></span></a></td>
         <td><span th:text="${post.title}"></span></td>
-        <td><!--<a th:href = "@{/posts/edit-post/{id}(id = ${post.id})}">수정하기</a>--></td>
+        <td><a th:href = "@{/posts/edit-post/{id}(id = ${post.id})}">수정하기</a></td>
     </tr>
     </tbody>
 </table>
 
-<!--<a th:href="@{posts/new-post}">유저 생성하기</a>-->
+<a th:href="@{posts/new-post}">게시글 생성하기</a>
 </body>
 </html>
