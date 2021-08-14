@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2> post 목록 </h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">제목</th>
+        <th scope="col">수정하기</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="post : ${posts}">
+        <td><a th:href = "@{/posts/{id}(id = ${post.id})}"><span th:text="${post.id}"></span></a></td>
+        <td><span th:text="${post.title}"></span></td>
+        <td><a th:href = "@{/posts/edit-post/{id}(id = ${post.id})}">수정하기</a></td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{posts/new-post}">게시글 생성하기</a>
+</body>
+</html>
