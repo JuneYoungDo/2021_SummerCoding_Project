@@ -15,8 +15,18 @@ public class UserRepository {
         return users.get(id);
     }
 
+    public Boolean existsById(Long id) {
+        return users.get(id) != null;
+    }
+
     public User findByName(String name) {
         return users.get(name);
+    }
+
+    public Boolean existsByName(String name) {
+        return users.values()
+                .stream()
+                .anyMatch(user -> user.getName().equals(name));
     }
 
     public List<User> findAll() {

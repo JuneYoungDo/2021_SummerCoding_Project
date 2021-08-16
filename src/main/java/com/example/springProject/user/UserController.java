@@ -1,22 +1,28 @@
 package com.example.springProject.user;
 
 import com.example.springProject.user.form.UserForm;
+import com.example.springProject.user.validator.UserFormValidator;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
+    private final UserFormValidator userFormValidator;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    @InitBinder("userForm")
+    public void initBinderUserForm(WebDataBinder webDataBinder) {
+        webDataBinder.addValidators(userFormValidator);
     }
 
     /**
@@ -60,7 +66,11 @@ public class UserController {
      * POST /users
      */
     @PostMapping("/new-user")
-    public String create(UserForm userForm) {
+    public String create(@Valid UserForm userForm, Errors errors) {
+        if(errors.hasErrors()){
+            return "users/new-user";
+        }
+
         User user = new User(
                 userForm.getId(),
                 userForm.getName(),
