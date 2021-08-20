@@ -1,23 +1,32 @@
 package com.example.springProject.post;
 
 import com.example.springProject.post.form.PostForm;
-import org.springframework.boot.Banner;
+import com.example.springProject.post.validator.PostFormValidator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class PostController {
 
     private final PostService postService;
+    private final PostFormValidator postFormValidator;
 
-    public PostController(PostService postService) {
-        this.postService = postService;
+    @InitBinder
+    public void InitBinderPostForm(WebDataBinder webDataBinder) {
+        webDataBinder.addValidators(postFormValidator);
     }
+
     /**
      * 게시글 목록 조회
      * GET /posts
@@ -59,7 +68,10 @@ public class PostController {
      * POST /posts
      */
     @PostMapping("/posts/new-post")
-    public String createPost(PostForm postForm) {
+    public String createPost(@Valid PostForm postForm, Errors errors) {
+        if(errors.hasErrors()) {
+            return "posts/new-post";
+        }
         Post post = new Post(
                 postForm.getId(),
                 postForm.getTitle(),

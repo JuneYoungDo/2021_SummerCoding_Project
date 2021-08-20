@@ -14,12 +14,13 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
+@RequiredArgsConstructor    // 생성자 대신
 public class UserController {
 
     private final UserService userService;
     private final UserFormValidator userFormValidator;
 
+    // userForm 이 나오게 되면 userFormValidator로 validation 체크
     @InitBinder("userForm")
     public void initBinderUserForm(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(userFormValidator);
@@ -67,7 +68,7 @@ public class UserController {
      */
     @PostMapping("/new-user")
     public String create(@Valid UserForm userForm, Errors errors) {
-        if(errors.hasErrors()){
+        if(errors.hasErrors()){ // 에러 메세지 체크하여 해당 페이지에서 나타 나도록
             return "users/new-user";
         }
 
