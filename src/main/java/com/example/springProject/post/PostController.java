@@ -22,8 +22,8 @@ public class PostController {
     private final PostService postService;
     private final PostFormValidator postFormValidator;
 
-    @InitBinder
-    public void InitBinderPostForm(WebDataBinder webDataBinder) {
+    @InitBinder("postForm")
+    public void initBinderPostForm(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(postFormValidator);
     }
 
@@ -67,7 +67,7 @@ public class PostController {
      * 게시글 생성
      * POST /posts
      */
-    @PostMapping("/posts/new-post")
+    @PostMapping("/new-post")
     public String createPost(@Valid PostForm postForm, Errors errors) {
         if(errors.hasErrors()) {
             return "posts/new-post";
