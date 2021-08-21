@@ -27,10 +27,10 @@ public class UserControllerTest {
     @DisplayName("유저 생성 폼 조회")
     void createUserFrom() throws Exception {
         // when , then
-        mockMvc.perform(get("/users/new-user"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("users/new-user"))
-                .andExpect(model().attributeExists("userForm"));
+        mockMvc.perform(get("/users/new-user")) // get방식과 경로 전달
+                .andExpect(status().isOk())     // 상태코드 200
+                .andExpect(view().name("users/new-user"))   //리턴하는 뷰 이름
+                .andExpect(model().attributeExists("userForm"));    // 모델 정보 검증
     }
 
     // 유저 생성 성공
@@ -41,7 +41,7 @@ public class UserControllerTest {
                 .param("id","1")
                 .param("name","new_name")
                 .param("type","type")
-        ).andExpect(redirectedUrl("/users"));
+        ).andExpect(redirectedUrl("/users"));   // redirect 검증
 
         User user = userRepository.findById(1L);
         assertNotNull(user);

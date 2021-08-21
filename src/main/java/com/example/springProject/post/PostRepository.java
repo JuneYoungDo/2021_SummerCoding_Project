@@ -13,6 +13,9 @@ public class PostRepository {
     public Post findById(Long postId) {
         return posts.get(postId);
     }
+    public Boolean existsById(Long id) {
+        return posts.get(id) != null;
+    }
     public Post findByTitle(String postTitle) {
         return posts.get(postTitle);
     }
