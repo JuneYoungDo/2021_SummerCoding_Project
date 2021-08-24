@@ -1,5 +1,6 @@
 package com.example.springProject.post;
 
+import com.example.springProject.user.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class PostControllerTest {
                 .param("description","description")
         ).andExpect(redirectedUrl("/posts"));
 
-        Post post = postRepository.findById(1L);
+        Post post = postRepository.findById(1L).get();
         assertNotNull(post);
         assertThat(post.getTitle()).isEqualTo("new_title");
     }
@@ -61,7 +62,7 @@ public class PostControllerTest {
                 .andExpect(view().name("posts/new-post"))
                 .andExpect(model().hasErrors());
 
-        Post post = postRepository.findById(1L);
+        Post post = postRepository.findById(1L).get();
         assertNull(post);
     }
 
@@ -69,7 +70,7 @@ public class PostControllerTest {
     @Test
     @DisplayName("게시글 조회 성공")
     void findPost() throws Exception {
-        Post newPost = new Post(1L,"new_title","description");
+        Post newPost = new Post(1L,"new_title","description",new User());
         postRepository.save(newPost);
 
         mockMvc.perform(get("/posts/" + newPost.getId()))
@@ -82,7 +83,7 @@ public class PostControllerTest {
     @Test
     @DisplayName("게시글 수정 - 성공")
     void editPostSuccess() throws Exception {
-        Post newPost = new Post(1L,"title","description");
+        Post newPost = new Post(1L,"title","description",new User());
         postRepository.save(newPost);
 
         mockMvc.perform(post("/posts/edit-post/" + newPost.getId())
@@ -90,7 +91,7 @@ public class PostControllerTest {
                 .param("description","description")
         ).andExpect(redirectedUrl("/posts"));
 
-        Post post = postRepository.findById(1L);
+        Post post = postRepository.findById(1L).get();
         assertNotNull(post);
         assertThat(post.getTitle()).isEqualTo("edit-title");
     }

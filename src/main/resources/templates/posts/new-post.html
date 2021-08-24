@@ -7,10 +7,7 @@
 </head>
 <body>
 
-    <form method="post" th:action="@{/posts/new-post}" th:object="${postForm}">
-        <label for="id">ID : </label>
-        <input type="text" name="id" id="id" th:field="*{id}">
-        <small th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></small>
+    <form method="post" th:action="@{/new-post}" th:object="${postForm}">
 
         <label for="title">제목 : </label>
         <input type="text" name="title" id="title" th:field="*{title}">

@@ -8,9 +8,6 @@
     게시글 수정
 
     <form method="post" th:action="@{/posts/edit-post/{id}(id=${postForm.id})}" th:object="${postForm}">
-        <label for="id">ID : </label>
-        <input type="text" name="id" id="id" th:field="*{id}">
-
         <label for="title">제목 : </label>
         <input type="text" name="title" id="title" th:field="*{title}">
 

@@ -1,37 +1,29 @@
 package com.example.springProject.post;
 
+import com.example.springProject.comment.Comment;
+import com.example.springProject.user.User;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Getter @Setter
+@AllArgsConstructor @NoArgsConstructor
 public class Post {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
     private String description;
 
-    public Post(Long id, String title, String description) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-    }
+    @ManyToOne // 여러 포스트가 하나의 유저를 갖는다.
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments;
 }
