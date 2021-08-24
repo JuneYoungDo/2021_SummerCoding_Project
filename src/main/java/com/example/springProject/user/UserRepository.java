@@ -1,39 +1,11 @@
 package com.example.springProject.user;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
+// @Repository -> jpa는 알아서 설정해줌                 // 객체, 식별자
+public interface UserRepository extends JpaRepository<User,Long> {
 
-@Repository
-public class UserRepository {
-    private HashMap<Long, User> users = new HashMap<>();
+    boolean existsByName(String name);
 
-    public User findById(Long id) {
-        return users.get(id);
-    }
 
-    public Boolean existsById(Long id) {
-        return users.get(id) != null;
-    }
-
-    public User findByName(String name) {
-        return users.get(name);
-    }
-
-    public Boolean existsByName(String name) {
-        return users.values()
-                .stream()
-                .anyMatch(user -> user.getName().equals(name));
-    }
-
-    public List<User> findAll() {
-        return new ArrayList<>(users.values());
-    }
-
-    public void save(User user) {
-        users.put(user.getId(),user);
-    }
 }

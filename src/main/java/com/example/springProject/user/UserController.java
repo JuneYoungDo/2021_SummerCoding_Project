@@ -1,9 +1,10 @@
 package com.example.springProject.user;
 
+import com.example.springProject.post.Post;
+import com.example.springProject.post.PostRepository;
 import com.example.springProject.user.form.UserForm;
 import com.example.springProject.user.validator.UserFormValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -19,6 +21,8 @@ public class UserController {
 
     private final UserService userService;
     private final UserFormValidator userFormValidator;
+
+    private final PostRepository postRepository;
 
     // userForm 이 나오게 되면 userFormValidator로 validation 체크
     @InitBinder("userForm")
@@ -32,8 +36,6 @@ public class UserController {
      */
     @GetMapping("/users")
     public String index(Model model) {
-        userService.save(new User(1L,"하이","하이"));
-        userService.save(new User(2L,"하이1","하이1"));
         List<User> users = userService.findAll();
         model.addAttribute("users",users);
 
@@ -75,9 +77,19 @@ public class UserController {
         User user = new User(
                 userForm.getId(),
                 userForm.getName(),
-                userForm.getType()
+                userForm.getType(),
+                new ArrayList<>()
         );
         userService.save(user);
+
+        Post post = new Post(
+                null,
+                "title3",
+                "description3",
+                user,
+                null
+        );
+        postRepository.save(post);
 
         return "redirect:/users";
     }
@@ -104,11 +116,7 @@ public class UserController {
      */
     @PostMapping("/users/edit-user/{userId}")
     public String editUser(@PathVariable Long userId, UserForm userForm) {
-        User user = userService.findById(userId);
-        user.setId(userForm.getId());
-        user.setName(userForm.getName());
-        user.setType(userForm.getType());
-
+        userService.update(userId, userForm);
         return "redirect:/users";
     }
 }

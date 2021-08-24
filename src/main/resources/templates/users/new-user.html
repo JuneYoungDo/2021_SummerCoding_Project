@@ -8,9 +8,6 @@
     유저 생성
 
     <form method="post" th:action="@{/new-user}" th:object="${userForm}">
-        <label for="id">ID : </label>
-        <input type="text" name="id" id="id" th:field="*{id}">
-        <small th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></small>
 
         <label for="name">이름 : </label>
         <input type="text" name="name" id="name" th:field="*{name}">
