@@ -1,6 +1,9 @@
 <!doctype html>
-<html lang="en">
-<head>
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head th:fragment :: head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -22,14 +25,28 @@
                     <a class="nav-link active" aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/users">Users</a>
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/users}">Users</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/posts">Posts</a>
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/posts}">Posts</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/comments">Comments</a>
+                    <a class="nav-link" th:href="@{/comments}">Comments</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/login}"}>Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/sign-up}"}>sign-up</a>
+                </li>
+
+                <div sec:authorize="isAuthenticated()">
+                    <form action="#" th:action="@{/logout}" method="post">
+                        <button type="submit">logout</button>
+                    </form>
+
+                </div>
             </ul>
             <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

@@ -2,6 +2,7 @@ package com.example.springProject.post;
 
 import com.example.springProject.post.form.PostForm;
 import com.example.springProject.post.validator.PostFormValidator;
+import com.example.springProject.user.CurrentUser;
 import com.example.springProject.user.User;
 import com.example.springProject.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -68,11 +69,12 @@ public class PostController {
      * POST /new-post
      */
     @PostMapping("/new-post")
-    public String createPost(@Valid PostForm postForm, Errors errors) {
+    public String createPost(
+            @CurrentUser User user,
+            @Valid PostForm postForm, Errors errors) {
         if(errors.hasErrors()) {
             return "posts/new-post";
         }
-        User user = userService.findById(1L);
 
         Post post = new Post(
                 postForm.getId(),

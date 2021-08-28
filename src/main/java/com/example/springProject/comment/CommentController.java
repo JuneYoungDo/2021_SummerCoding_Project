@@ -83,10 +83,10 @@ public class CommentController {
      * POST /comments/edit-comment/{commentId}
      */
     @GetMapping("/comments/edit-comment/{commentId}")
-    public String editComment(@PathVariable Long commentId,Model model) {
+    public String editComment(@PathVariable Long commentId, Model model) {
         Comment comment = commentService.findById(commentId);
-        model.addAttribute("comment",comment);
-        model.addAttribute("commentForm",new CommentForm(
+        model.addAttribute("comment", comment);
+        model.addAttribute("commentForm", new CommentForm(
                 comment.getId(),
                 comment.getPost().getId(),
                 comment.getDescription()
@@ -94,9 +94,10 @@ public class CommentController {
 
         return "comments/edit-comment";
     }
+
     @PostMapping("/comments/edit-comment/{commentId}")
     public String editComment(@PathVariable Long commentId, CommentForm commentForm) {
-        commentService.update(commentId,commentForm);
+        commentService.update(commentId, commentForm);
         return "redirect:/comments";
     }
 }

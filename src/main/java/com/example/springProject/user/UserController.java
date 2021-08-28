@@ -2,6 +2,7 @@ package com.example.springProject.user;
 
 import com.example.springProject.post.Post;
 import com.example.springProject.post.PostRepository;
+import com.example.springProject.user.form.SignUpForm;
 import com.example.springProject.user.form.UserForm;
 import com.example.springProject.user.validator.UserFormValidator;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,27 @@ public class UserController {
     @InitBinder("userForm")
     public void initBinderUserForm(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(userFormValidator);
+    }
+
+    @GetMapping("/login")
+    public String login() {
+
+        return "users/login";
+    }
+
+    @GetMapping("/sign-up")
+    public String signUp(Model model) {
+        model.addAttribute("signUpForm",new SignUpForm());
+
+        return "users/sign-up";
+    }
+
+    @PostMapping("/sign-up")
+    public String signUp(SignUpForm signUpForm) {
+        User user = userService.createUser(signUpForm);
+        userService.login(user);
+
+        return "redirect:/";
     }
 
     /**
@@ -74,22 +96,22 @@ public class UserController {
             return "users/new-user";
         }
 
-        User user = new User(
-                userForm.getId(),
-                userForm.getName(),
-                userForm.getType(),
-                new ArrayList<>()
-        );
-        userService.save(user);
+//        User user = new User(
+//                userForm.getId(),
+//                userForm.getName(),
+//                userForm.getType(),
+//                new ArrayList<>()
+//        );
+//        userService.save(user);
 
-        Post post = new Post(
-                null,
-                "title3",
-                "description3",
-                user,
-                null
-        );
-        postRepository.save(post);
+//        Post post = new Post(
+//                null,
+//                "title3",
+//                "description3",
+//                user,
+//                null
+//        );
+//        postRepository.save(post);
 
         return "redirect:/users";
     }

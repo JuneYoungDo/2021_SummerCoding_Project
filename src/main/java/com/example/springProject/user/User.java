@@ -1,21 +1,23 @@
 package com.example.springProject.user;
 
 import com.example.springProject.post.Post;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Getter @Setter
+@Builder
 @AllArgsConstructor @NoArgsConstructor
 public class User {
     @Id     // key는 id
     @GeneratedValue(strategy = GenerationType.AUTO)     // 자동적으로 auto increament
     private Long id;
+
+    private String username;
+    private String password;
+
     private String name;
     private String type;
 
