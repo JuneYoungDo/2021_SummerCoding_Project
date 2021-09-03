@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<form method="post" th:action="@{/users}">
+
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username">
+
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password">
+
+    <button type="submit">로그인</button>
+
+</form>
+
+</body>
+</html>

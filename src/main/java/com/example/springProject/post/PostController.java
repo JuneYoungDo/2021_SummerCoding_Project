@@ -2,6 +2,9 @@ package com.example.springProject.post;
 
 import com.example.springProject.post.form.PostForm;
 import com.example.springProject.post.validator.PostFormValidator;
+import com.example.springProject.user.CurrentUser;
+import com.example.springProject.user.User;
+import com.example.springProject.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,11 +24,11 @@ public class PostController {
 
     private final PostService postService;
     private final PostFormValidator postFormValidator;
-
-    @InitBinder("postForm")
-    public void initBinderPostForm(WebDataBinder webDataBinder) {
-        webDataBinder.addValidators(postFormValidator);
-    }
+    private final UserService userService;
+//    @InitBinder("postForm")
+//    public void InitBinderPostForm(WebDataBinder webDataBinder) {
+//        webDataBinder.addValidators(postFormValidator);
+//    }
 
     /**
      * 게시글 목록 조회
@@ -33,8 +36,6 @@ public class PostController {
      */
     @GetMapping("/posts")
     public String postIndex(Model model) {
-        postService.save(new Post(1L,"제목1","내용1"));
-        postService.save(new Post(2L,"제목2","내용2"));
         List<Post> posts = postService.findAll();
         model.addAttribute("posts",posts);
 
@@ -65,25 +66,31 @@ public class PostController {
 
     /**
      * 게시글 생성
-     * POST /posts
+     * POST /new-post
      */
     @PostMapping("/new-post")
-    public String createPost(@Valid PostForm postForm, Errors errors) {
+    public String createPost(
+            @CurrentUser User user,
+            @Valid PostForm postForm, Errors errors) {
         if(errors.hasErrors()) {
             return "posts/new-post";
         }
+
         Post post = new Post(
                 postForm.getId(),
                 postForm.getTitle(),
-                postForm.getDescription()
+                postForm.getDescription(),
+                user,
+                null
         );
         postService.save(post);
+
         return "redirect:/posts";
     }
 
     /**
      * 게시글 수정
-     * POST /posts/{post-id}
+     * POST /posts/edit-post/{post-id}
      */
     @GetMapping("/posts/edit-post/{postId}")
     public String editPost(@PathVariable Long postId, Model model) {
@@ -100,11 +107,7 @@ public class PostController {
 
     @PostMapping("posts/edit-post/{postId}")
     public String editPost(@PathVariable Long postId,PostForm postForm) {
-        Post post = postService.findById(postId);
-        post.setId(postForm.getId());
-        post.setTitle(postForm.getTitle());
-        post.setDescription(postForm.getDescription());
-
+        postService.update(postId,postForm);
         return "redirect:/posts";
     }
 }

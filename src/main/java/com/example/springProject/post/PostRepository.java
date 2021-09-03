@@ -1,29 +1,16 @@
 package com.example.springProject.post;
 
+import com.example.springProject.comment.Comment;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@Repository
-public class PostRepository {
-    private HashMap<Long, Post> posts = new HashMap<>();
 
-    public Post findById(Long postId) {
-        return posts.get(postId);
-    }
-    public Boolean existsById(Long id) {
-        return posts.get(id) != null;
-    }
-    public Post findByTitle(String postTitle) {
-        return posts.get(postTitle);
-    }
-    public List<Post> findAll() {
-        return new ArrayList<>(posts.values());
-    }
-    public void save(Post post) {
-        posts.put(post.getId(),post);
-    }
+public interface PostRepository extends JpaRepository<Post,Long> {
+
+    boolean existsById(Long postId);
 
 }

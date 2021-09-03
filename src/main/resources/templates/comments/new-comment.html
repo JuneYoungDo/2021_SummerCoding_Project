@@ -7,11 +7,11 @@
 </head>
 <body>
 
-    <form method="post" th:action="@{/new-post}" th:object="${postForm}">
+    <form method="post" th:action="@{/new-comment}" th:object="${commentForm}">
 
-        <label for="title">제목 : </label>
-        <input type="text" name="title" id="title" th:field="*{title}">
-        <small th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></small>
+        <label for="postId">게시글 번호 : </label>
+        <input type="text" name="postId" id="postId" th:field="*{postId}">
+        <small th:if="${#fields.hasErrors('postId')}" th:errors="*{postId}"></small>
 
         <label for="description">내용 : </label>
         <input type="text" name="description" id="description" th:field="*{description}">
