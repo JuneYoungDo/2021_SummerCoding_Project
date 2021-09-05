@@ -31,14 +31,14 @@
                     <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/posts}">Posts</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/comments}">Comments</a>
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/comments}">Comments</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/login}"}>Login</a>
+                    <a class="nav-link" th:href="@{/login}"}>Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/sign-up}"}>sign-up</a>
+                    <a class="nav-link" th:href="@{/sign-up}"}>sign-up</a>
                 </li>
 
                 <div sec:authorize="isAuthenticated()">

@@ -32,4 +32,13 @@ public class CommentService {
         comment.setDescription(commentForm.getDescription());
     }
 
+//    public Comment createComment(CommentForm commentForm) {
+//        Comment comment = new Comment(
+//                commentForm.getId(),
+//                commentForm.getDescription(),
+//
+//        )
+//    }
+
+
 }
