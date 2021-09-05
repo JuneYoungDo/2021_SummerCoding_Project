@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor @NoArgsConstructor
 public class User {
     @Id     // key는 id
-    @GeneratedValue(strategy = GenerationType.AUTO)     // 자동적으로 auto increament
+    @GeneratedValue(strategy = GenerationType.IDENTITY)     // 자동적으로 auto increament
     private Long id;
 
     private String username;
